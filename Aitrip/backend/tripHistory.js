@@ -1,21 +1,45 @@
+/**
+ * Trip History Operations
+ * Handles all trip-related database operations using Supabase
+ * 
+ * @module backend/tripHistory
+ */
+
 import { createClient } from '@supabase/supabase-js';
 
-// Create clients
-const supabaseUrl = 'https://pwwykhhgcelxbvybtetz.supabase.co';
-const supabaseAnonKey = 'sb_publishable_gFaaxYFxpHzud75IjldMrA_kiRqptJn';
+/**
+ * Supabase Configuration
+ * Loaded from environment variables for security
+ */
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-// Regular client for unauthenticated operations
+// Validate environment variables
+if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error('SUPABASE_URL and SUPABASE_ANON_KEY must be set in environment');
+}
+
+/**
+ * Regular client for unauthenticated operations
+ * @type {import('@supabase/supabase-js').SupabaseClient}
+ */
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// Function to create a client with user context
+/**
+ * Creates a Supabase client with user authentication token
+ * Used for user-specific operations
+ * 
+ * @param {string} userToken - JWT token from authenticated user
+ * @returns {import('@supabase/supabase-js').SupabaseClient}
+ */
 function createClientWithUserToken(userToken) {
-  return createClient(supabaseUrl, supabaseAnonKey, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${userToken}`
-      }
-    }
-  });
+    return createClient(supabaseUrl, supabaseAnonKey, {
+        global: {
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        }
+    });
 }
 
 // Save trip to history
