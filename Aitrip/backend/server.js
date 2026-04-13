@@ -11,8 +11,8 @@ dotenv.config();
 
 import { requestLogger, logger } from './middleware/logger.js';
 import { sanitizeBody }          from './middleware/validate.js';
-import { generalLimiter }        from './middleware/rateLimit.js';
-import { generalTimeout } from './middleware/timeout.js';
+import { generalLimiter }        from './middleware/Ratelimit.js';
+import { generalTimeout } from './middleware/Timeout.js';
 import tripPlannerRoutes         from './routes/tripPlannerRoutes.js';
 import tripHistoryRoutes         from './routes/tripHistoryRoutes.js';
 
